@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NoteBookApp.Business\NoteBookApp.Business.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="LoginForm.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
