@@ -61,6 +61,7 @@
             this.findCategoryButton = new System.Windows.Forms.Button();
             this.userIdLabel = new System.Windows.Forms.Label();
             this.userInfoTextBox = new System.Windows.Forms.TextBox();
+            this.idLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.uploadPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.findPictureBox)).BeginInit();
             this.SuspendLayout();
@@ -286,7 +287,7 @@
             this.LogoLabel.AutoSize = true;
             this.LogoLabel.Font = new System.Drawing.Font("Segoe UI", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point);
             this.LogoLabel.ForeColor = System.Drawing.Color.Yellow;
-            this.LogoLabel.Location = new System.Drawing.Point(344, 12);
+            this.LogoLabel.Location = new System.Drawing.Point(696, 3);
             this.LogoLabel.Name = "LogoLabel";
             this.LogoLabel.Size = new System.Drawing.Size(198, 32);
             this.LogoLabel.TabIndex = 28;
@@ -329,6 +330,7 @@
             this.removeButton.TabIndex = 32;
             this.removeButton.Text = "Remove";
             this.removeButton.UseVisualStyleBackColor = false;
+            this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
             // 
             // updateButton
             // 
@@ -340,6 +342,7 @@
             this.updateButton.TabIndex = 33;
             this.updateButton.Text = "Update";
             this.updateButton.UseVisualStyleBackColor = false;
+            this.updateButton.Click += new System.EventHandler(this.updateButton_Click);
             // 
             // findNoteButton
             // 
@@ -351,6 +354,7 @@
             this.findNoteButton.TabIndex = 34;
             this.findNoteButton.Text = "Find";
             this.findNoteButton.UseVisualStyleBackColor = false;
+            this.findNoteButton.Click += new System.EventHandler(this.findNoteButton_Click);
             // 
             // findCategoryButton
             // 
@@ -362,6 +366,7 @@
             this.findCategoryButton.TabIndex = 35;
             this.findCategoryButton.Text = "Find";
             this.findCategoryButton.UseVisualStyleBackColor = false;
+            this.findCategoryButton.Click += new System.EventHandler(this.findCategoryButton_Click);
             // 
             // userIdLabel
             // 
@@ -374,10 +379,18 @@
             // userInfoTextBox
             // 
             this.userInfoTextBox.BackColor = System.Drawing.Color.Olive;
-            this.userInfoTextBox.Location = new System.Drawing.Point(696, 10);
+            this.userInfoTextBox.Location = new System.Drawing.Point(443, 12);
             this.userInfoTextBox.Name = "userInfoTextBox";
             this.userInfoTextBox.Size = new System.Drawing.Size(190, 23);
             this.userInfoTextBox.TabIndex = 37;
+            // 
+            // idLabel
+            // 
+            this.idLabel.AutoSize = true;
+            this.idLabel.Location = new System.Drawing.Point(335, 374);
+            this.idLabel.Name = "idLabel";
+            this.idLabel.Size = new System.Drawing.Size(0, 15);
+            this.idLabel.TabIndex = 38;
             // 
             // NoteBookForm
             // 
@@ -385,6 +398,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Olive;
             this.ClientSize = new System.Drawing.Size(898, 569);
+            this.Controls.Add(this.idLabel);
             this.Controls.Add(this.userInfoTextBox);
             this.Controls.Add(this.userIdLabel);
             this.Controls.Add(this.findCategoryButton);
@@ -420,6 +434,7 @@
             this.Controls.Add(this.LogoutButton);
             this.Name = "NoteBookForm";
             this.Text = "NoteBookForm";
+            this.Load += new System.EventHandler(this.NoteBookForm_Load_1);
             ((System.ComponentModel.ISupportInitialize)(this.uploadPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.findPictureBox)).EndInit();
             this.ResumeLayout(false);
@@ -462,5 +477,6 @@
         private Button findCategoryButton;
         private Label userIdLabel;
         private TextBox userInfoTextBox;
+        private Label idLabel;
     }
 }

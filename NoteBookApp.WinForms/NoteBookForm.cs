@@ -1,5 +1,6 @@
 ﻿using NoteBookApp.Business.Services;
 using NoteBookApp.Repository.ContextDb;
+using NoteBookApp.Repository.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,20 +25,13 @@ namespace NoteBookApp.WinForms
         {
             InitializeComponent();
         }
-
-        private void LogoutButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-            LoginForm loginForm = new LoginForm();
-            loginForm.ShowDialog();
-        }
-        private void NoteBookForm_Load(object sender, System.EventArgs e)
+        private void NoteBookForm_Load_1(object sender, EventArgs e)
         {
             userIdLabel.Text = LoginForm.SetValueForUserId;
             userInfoTextBox.AppendText($"{LoginForm.SetValueForUserName} {LoginForm.SetValueForUserLastName}");
             Guid userId = Guid.Parse(userIdLabel.Text);
-            //AddNoteNameByUserToList(userId);
-            //AddCategorieByUserToList(userId);
+            AddUserCategoryTitlesToList(userId);
+            AddUserNoteTitlesToList(userId);
             var notes = noteServices.FindUserNotes(userId);
             var categories = categoryServices.FindUserCategories(userId);
             for (int i = 0; i < notes.Count; i++)
@@ -55,7 +49,87 @@ namespace NoteBookApp.WinForms
                 }
             }
         }
-        /* private void removeButton_Click(object sender, EventArgs e)
+        private void AddUserCategoryTitlesToList(Guid userId)
+        {
+            List<Category> categories = categoryServices.FindUserCategories(userId);
+            for (int i = 0; i < categories.Count; i++)
+            {
+                findCategoryComboBox.Items.Add(categories[i].Title);
+                categoryComboBox.Items.Add(categories[i].Title);
+            }
+        }
+        private void AddUserNoteTitlesToList(Guid userId)
+        {
+            findNoteComboBox.Items.Clear();
+            List<Note> notes = noteServices.FindUserNotes(userId);
+            for (int i = 0; i < notes.Count; i++)
+            {
+                findNoteComboBox.Items.Add(notes[i].Title);
+            }
+        }
+        private void LogoutButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            LoginForm loginForm = new LoginForm();
+            loginForm.ShowDialog();
+        }
+
+        private void findCategoryButton_Click(object sender, EventArgs e)
+        {
+            findTextBox.Clear();
+            findPictureBox.Image = null;
+            string categoryTitle = findCategoryComboBox.Text;
+            if (categoryTitle == "")
+            {
+                MessageBox.Show("Please select category.");
+            }
+            else
+            {
+                var notes = noteServices.FindNotesByCategoryTitle(categoryTitle);
+                if (notes.Count == 0)
+                {
+                    findTextBox.AppendText($"Category {findCategoryComboBox.Text} is empty");
+                    var category = categoryServices.FindCategoryByTitle(findCategoryComboBox.Text);
+                    idLabel.Text = category.Id.ToString();
+                }
+                else
+                {
+                    findTextBox.AppendText($"Notes by category {findCategoryComboBox.Text}:\r\n");
+                    for (int i = 0; i < notes.Count; i++)
+                    {
+                        findTextBox.AppendText($"Note title: {notes[i].Title}\r\nContent: {notes[i].Content};\r\n*******\r\n");
+                        idLabel.Text = notes[i].CategoryId.ToString();
+                    }
+                }
+            }
+        }
+
+        private void findNoteButton_Click(object sender, EventArgs e)
+        {
+            findTextBox.Clear();
+            findPictureBox.Image = null;
+            string noteTitle = findNoteComboBox.Text;
+            if (noteTitle == "")
+            {
+                MessageBox.Show("Please select note title.");
+            }
+            else
+            {
+                var note = noteServices.FindNoteByTitle(noteTitle);
+                findTextBox.AppendText($"Note title: {note.Title}\r\n Note content: {note.Content}\r\n*******");
+                //idLabel.Text = note.Id.ToString();
+                if (note.Photo == "")
+                {
+                    findPictureBox.Visible = false;
+                }
+                else
+                {
+                    findPictureBox.Image = new Bitmap(note.Photo);
+                }
+            }
+        }
+
+        private void updateButton_Click(object sender, EventArgs e)
         {
             if (findTextBox.Text == "")
             {
@@ -63,28 +137,53 @@ namespace NoteBookApp.WinForms
             }
             else
             {
-                Guid categoryId = Guid.Parse(idLabel.Text);
-                var category = categoryServices.FindCategoryById(categoryId);
-                var note = noteServices.FindNoteById(idFromLabel);
+                SetNoteOrCategorieId = idLabel.Text;
+                Guid id = Guid.Parse(idLabel.Text);
+                SetUserId = userIdLabel.Text;
+                var note = noteServices.FindNoteById(id);
                 if (note != null)
                 {
-                    noteNameList.Items.Remove(note.Name);
-                    noteServices.RemoveNote(note);
-                    searchTextBox.Clear();
-                    MessageBox.Show("Note deleted succsesfully.");
+                    UpdateForm updateForm = new UpdateForm();
+                    updateForm.ShowDialog();
                 }
                 else
                 {
-                    findCategoryComboBox.Items.Remove(category.title);
-                    categorieNameList.Items.Remove(categorie.Name);
-                    categorieServices.RemoveCategorie(categorie);
-                    searchTextBox.Clear();
-                    MessageBox.Show("Categorie deleted succsesfully.");
+                    UpdateForm updateForm = new UpdateForm();
+                    updateForm.ShowDialog();
+                }
+            }
+        }
+
+        private void removeButton_Click(object sender, EventArgs e)
+        {
+            if (findTextBox.Text == "")
+            {
+                MessageBox.Show("Please select category or note");
+            }
+            else
+            {
+                Guid id = Guid.Parse(idLabel.Text);
+                var category = categoryServices.FindCategoryById(id);
+                var note = noteServices.FindNoteById(id);
+                if (note != null)
+                {
+                    findNoteComboBox.Items.Remove(note.Title);
+                    noteServices.DeleteNote(note);
+                    findTextBox.Clear();
+                    MessageBox.Show("Note deleted");
+                }
+                else
+                {
+                    findCategoryComboBox.Items.Remove(category.Title);
+                    categoryComboBox.Items.Remove(category.Title);
+                    categoryServices.DeleteCategory(category);
+                    findTextBox.Clear();
+                    MessageBox.Show("Category deleted");
                 }
                 this.Close();
                 NoteBookForm noteBookForm = new NoteBookForm();
                 noteBookForm.ShowDialog();
             }
-        } */
+        }
     }
 }
