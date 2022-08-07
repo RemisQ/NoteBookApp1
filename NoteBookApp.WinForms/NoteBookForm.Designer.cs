@@ -62,6 +62,7 @@
             this.userIdLabel = new System.Windows.Forms.Label();
             this.userInfoTextBox = new System.Windows.Forms.TextBox();
             this.idLabel = new System.Windows.Forms.Label();
+            this.pathLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.uploadPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.findPictureBox)).BeginInit();
             this.SuspendLayout();
@@ -151,6 +152,7 @@
             this.createNoteButton.TabIndex = 8;
             this.createNoteButton.Text = "Create";
             this.createNoteButton.UseVisualStyleBackColor = false;
+            this.createNoteButton.Click += new System.EventHandler(this.createNoteButton_Click);
             // 
             // uploadPhotoButton
             // 
@@ -162,6 +164,7 @@
             this.uploadPhotoButton.TabIndex = 9;
             this.uploadPhotoButton.Text = "Upload photo";
             this.uploadPhotoButton.UseVisualStyleBackColor = false;
+            this.uploadPhotoButton.Click += new System.EventHandler(this.uploadPhotoButton_Click);
             // 
             // uploadPictureBox
             // 
@@ -227,6 +230,7 @@
             this.CategoryCreateButton.TabIndex = 16;
             this.CategoryCreateButton.Text = "Create";
             this.CategoryCreateButton.UseVisualStyleBackColor = false;
+            this.CategoryCreateButton.Click += new System.EventHandler(this.CategoryCreateButton_Click);
             // 
             // LogedByLabel
             // 
@@ -379,9 +383,11 @@
             // userInfoTextBox
             // 
             this.userInfoTextBox.BackColor = System.Drawing.Color.Olive;
-            this.userInfoTextBox.Location = new System.Drawing.Point(443, 12);
+            this.userInfoTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.userInfoTextBox.ForeColor = System.Drawing.Color.Purple;
+            this.userInfoTextBox.Location = new System.Drawing.Point(443, 17);
             this.userInfoTextBox.Name = "userInfoTextBox";
-            this.userInfoTextBox.Size = new System.Drawing.Size(190, 23);
+            this.userInfoTextBox.Size = new System.Drawing.Size(190, 16);
             this.userInfoTextBox.TabIndex = 37;
             // 
             // idLabel
@@ -392,12 +398,22 @@
             this.idLabel.Size = new System.Drawing.Size(0, 15);
             this.idLabel.TabIndex = 38;
             // 
+            // pathLabel
+            // 
+            this.pathLabel.AutoSize = true;
+            this.pathLabel.ForeColor = System.Drawing.Color.Olive;
+            this.pathLabel.Location = new System.Drawing.Point(676, 545);
+            this.pathLabel.Name = "pathLabel";
+            this.pathLabel.Size = new System.Drawing.Size(0, 15);
+            this.pathLabel.TabIndex = 39;
+            // 
             // NoteBookForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Olive;
             this.ClientSize = new System.Drawing.Size(898, 569);
+            this.Controls.Add(this.pathLabel);
             this.Controls.Add(this.idLabel);
             this.Controls.Add(this.userInfoTextBox);
             this.Controls.Add(this.userIdLabel);
@@ -432,6 +448,7 @@
             this.Controls.Add(this.categoryLabel);
             this.Controls.Add(this.createNoteLabel);
             this.Controls.Add(this.LogoutButton);
+            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.Name = "NoteBookForm";
             this.Text = "NoteBookForm";
             this.Load += new System.EventHandler(this.NoteBookForm_Load_1);
@@ -478,5 +495,6 @@
         private Label userIdLabel;
         private TextBox userInfoTextBox;
         private Label idLabel;
+        private Label pathLabel;
     }
 }

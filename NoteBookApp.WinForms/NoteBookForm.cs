@@ -185,5 +185,84 @@ namespace NoteBookApp.WinForms
                 noteBookForm.ShowDialog();
             }
         }
+
+        private void CategoryCreateButton_Click(object sender, EventArgs e)
+        {
+            string title = categoryTitleBox.Text;
+            string specification = categorySpecificationBox.Text;
+            Guid userId = Guid.Parse(userIdLabel.Text);
+            if (title == "" || specification == "")
+            {
+                MessageBox.Show("Title and specification is required");
+            }
+            else
+            {
+                var category = categoryServices.FindCategoryByUserIdAndTitle(userId, title);
+                if (category != null)
+                {
+                    MessageBox.Show("Category allready exists");
+                }
+                else
+                {
+                    categoryServices.CreateCategory(title, specification, userId);
+                    categoryComboBox.Items.Add(title);
+                    findCategoryComboBox.Items.Add(title);
+                    MessageBox.Show("Category created");
+                    categoryTitleBox.Clear();
+                    categorySpecificationBox.Clear();
+                }
+            }
+        }
+
+        private void createNoteButton_Click(object sender, EventArgs e)
+        {
+            string title = noteTitleBox.Text;
+            string content = noteContentBox.Text;
+            if (title == "" || content == "")
+            {
+                MessageBox.Show("Title and content is required");
+            }
+            else if (categoryComboBox.Text == "")
+            {
+                MessageBox.Show("Set category is required");
+            }
+            else
+            {
+                Guid userId = Guid.Parse(userIdLabel.Text);
+                var noteUser = noteServices.FindUserNoteByTitle(userId, title);
+                if (noteUser != null)
+                {
+                    MessageBox.Show("Title allready exists");
+                }
+                else
+                {
+                    var category = categoryServices.FindCategoryByTitle(categoryComboBox.Text);
+                    Guid categoryId = category.Id;
+                    string photoFilePath = pathLabel.Text;
+                    noteServices.CreateNote(title, content, photoFilePath, categoryId, userId);
+                    findNoteComboBox.Items.Add(title);
+                    var user = userServices.FindUserById(userId);
+                    var note = noteServices.FindNoteByTitle(title);
+                    noteServices.AddNoteToUser(user, note);
+                    noteServices.AddNoteToCategory(category, note);
+                    userNoteBox.AppendText($"Category {category.Title}\r\nNote title {title}\r\nContent: {content}\r\n*******\r\n");
+                    noteTitleBox.Clear();
+                    noteContentBox.Clear();
+                    MessageBox.Show("Note created");
+                }
+            }
+        }
+
+        private void uploadPhotoButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image Files (*.jpg;*.jepg;.*.gif;) |*.jpg;*.jepg;.*.gif";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                var fileName = openFileDialog.FileName;
+                uploadPictureBox.Image = new Bitmap(fileName);
+                pathLabel.Text = fileName;
+            }
+        }
     }
 }
