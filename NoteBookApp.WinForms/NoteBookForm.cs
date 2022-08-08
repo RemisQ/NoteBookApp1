@@ -42,9 +42,9 @@ namespace NoteBookApp.WinForms
                     {
                         if (notes[i].Photo == null)
                         {
-                            userNoteBox.AppendText($"Categorie: {categories[j].Title}\r\nNote name: {notes[i].Title}\r\nRecord: {notes[i].Content}\r\n\r\n");
+                            userNoteBox.AppendText($"Category: {categories[j].Title}\r\nNote title: {notes[i].Title}\r\nContent: {notes[i].Content}\r\n\r\n");
                         }
-                        userNoteBox.AppendText($"Categorie: {categories[j].Title}\r\nNote name: {notes[i].Title}\r\nRecord: {notes[i].Content}\r\n\r\n");
+                        //userNoteBox.AppendText($"Category: {categories[j].Title}\r\nNote title: {notes[i].Title}\r\nContent: {notes[i].Content}\r\n\r\n");
                     }
                 }
             }
@@ -117,7 +117,7 @@ namespace NoteBookApp.WinForms
             {
                 var note = noteServices.FindNoteByTitle(noteTitle);
                 findTextBox.AppendText($"Note title: {note.Title}\r\n Note content: {note.Content}\r\n*******");
-                //idLabel.Text = note.Id.ToString();
+                idLabel.Text = note.Id.ToString();
                 if (note.Photo == "")
                 {
                     findPictureBox.Visible = false;
@@ -216,9 +216,9 @@ namespace NoteBookApp.WinForms
 
         private void createNoteButton_Click(object sender, EventArgs e)
         {
-            string title = noteTitleBox.Text;
+            string titleNote = noteTitleBox.Text;
             string content = noteContentBox.Text;
-            if (title == "" || content == "")
+            if (titleNote == "" || content == "")
             {
                 MessageBox.Show("Title and content is required");
             }
@@ -229,7 +229,7 @@ namespace NoteBookApp.WinForms
             else
             {
                 Guid userId = Guid.Parse(userIdLabel.Text);
-                var noteUser = noteServices.FindUserNoteByTitle(userId, title);
+                var noteUser = noteServices.FindUserNoteByTitle(userId, titleNote);
                 if (noteUser != null)
                 {
                     MessageBox.Show("Title allready exists");
@@ -237,15 +237,15 @@ namespace NoteBookApp.WinForms
                 else
                 {
                     var category = categoryServices.FindCategoryByTitle(categoryComboBox.Text);
-                    Guid categoryId = category.Id;
-                    string photoFilePath = pathLabel.Text;
-                    noteServices.CreateNote(title, content, photoFilePath, categoryId, userId);
-                    findNoteComboBox.Items.Add(title);
+                    Guid categoryID = category.Id;
+                    string photoFilePath = "abc"; //pathLabel.Text;
+                    noteServices.CreateNote(titleNote, content, photoFilePath, userId, categoryID);
+                    findNoteComboBox.Items.Add(titleNote);
                     var user = userServices.FindUserById(userId);
-                    var note = noteServices.FindNoteByTitle(title);
+                    var note = noteServices.FindNoteByTitle(titleNote);
                     noteServices.AddNoteToUser(user, note);
                     noteServices.AddNoteToCategory(category, note);
-                    userNoteBox.AppendText($"Category {category.Title}\r\nNote title {title}\r\nContent: {content}\r\n*******\r\n");
+                    userNoteBox.AppendText($"Category {category.Title}\r\nNote title {titleNote}\r\nContent: {content}\r\n*******\r\n");
                     noteTitleBox.Clear();
                     noteContentBox.Clear();
                     MessageBox.Show("Note created");
