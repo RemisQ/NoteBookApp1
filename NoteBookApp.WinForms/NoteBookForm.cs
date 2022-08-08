@@ -42,9 +42,9 @@ namespace NoteBookApp.WinForms
                     {
                         if (notes[i].Photo == null)
                         {
-                            userNoteBox.AppendText($"Category: {categories[j].Title}\r\nNote title: {notes[i].Title}\r\nContent: {notes[i].Content}\r\n\r\n");
+                            userNoteBox.AppendText($"Category: {categories[j].Title}\r\nNote title: {notes[i].Title}\r\nContent: {notes[i].Content}\r\n*******\r\n");
                         }
-                        //userNoteBox.AppendText($"Category: {categories[j].Title}\r\nNote title: {notes[i].Title}\r\nContent: {notes[i].Content}\r\n\r\n");
+                        userNoteBox.AppendText($"Category: {categories[j].Title}\r\nNote title: {notes[i].Title}\r\nContent: {notes[i].Content}\r\n*******\r\n");
                     }
                 }
             }
@@ -90,15 +90,13 @@ namespace NoteBookApp.WinForms
                 {
                     findTextBox.AppendText($"Category {findCategoryComboBox.Text} is empty");
                     var category = categoryServices.FindCategoryByTitle(findCategoryComboBox.Text);
-                    idLabel.Text = category.Id.ToString();
                 }
                 else
                 {
                     findTextBox.AppendText($"Notes by category {findCategoryComboBox.Text}:\r\n");
                     for (int i = 0; i < notes.Count; i++)
                     {
-                        findTextBox.AppendText($"Note title: {notes[i].Title}\r\nContent: {notes[i].Content};\r\n*******\r\n");
-                        idLabel.Text = notes[i].CategoryId.ToString();
+                        findTextBox.AppendText($"Note title: {notes[i].Title}\r\nContent: {notes[i].Content}\r\n*******\r\n");
                     }
                 }
             }
@@ -117,7 +115,6 @@ namespace NoteBookApp.WinForms
             {
                 var note = noteServices.FindNoteByTitle(noteTitle);
                 findTextBox.AppendText($"Note title: {note.Title}\r\n Note content: {note.Content}\r\n*******");
-                idLabel.Text = note.Id.ToString();
                 if (note.Photo == "")
                 {
                     findPictureBox.Visible = false;
@@ -238,14 +235,14 @@ namespace NoteBookApp.WinForms
                 {
                     var category = categoryServices.FindCategoryByTitle(categoryComboBox.Text);
                     Guid categoryID = category.Id;
-                    string photoFilePath = "abc"; //pathLabel.Text;
+                    string photoFilePath = pathLabel.Text;
                     noteServices.CreateNote(titleNote, content, photoFilePath, userId, categoryID);
                     findNoteComboBox.Items.Add(titleNote);
                     var user = userServices.FindUserById(userId);
                     var note = noteServices.FindNoteByTitle(titleNote);
                     noteServices.AddNoteToUser(user, note);
                     noteServices.AddNoteToCategory(category, note);
-                    userNoteBox.AppendText($"Category {category.Title}\r\nNote title {titleNote}\r\nContent: {content}\r\n*******\r\n");
+                    userNoteBox.AppendText($"Category --> {category.Title}\r\nNote title --> {titleNote}\r\nContent --> {content}\r\n*******\r\n");
                     noteTitleBox.Clear();
                     noteContentBox.Clear();
                     MessageBox.Show("Note created");

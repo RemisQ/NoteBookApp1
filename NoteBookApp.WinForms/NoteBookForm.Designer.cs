@@ -275,6 +275,8 @@
             this.findTextBox.Location = new System.Drawing.Point(416, 360);
             this.findTextBox.Multiline = true;
             this.findTextBox.Name = "findTextBox";
+            this.findTextBox.ReadOnly = true;
+            this.findTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.findTextBox.Size = new System.Drawing.Size(220, 132);
             this.findTextBox.TabIndex = 24;
             // 
@@ -303,6 +305,8 @@
             this.userNoteBox.Location = new System.Drawing.Point(235, 99);
             this.userNoteBox.Multiline = true;
             this.userNoteBox.Name = "userNoteBox";
+            this.userNoteBox.ReadOnly = true;
+            this.userNoteBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.userNoteBox.Size = new System.Drawing.Size(413, 226);
             this.userNoteBox.TabIndex = 29;
             // 
